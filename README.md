@@ -1,5 +1,5 @@
 # TODO MANAGER
 
-Create by Konstantin
+Created by Konstantin
 
 

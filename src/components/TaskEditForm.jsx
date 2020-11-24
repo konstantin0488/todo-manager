@@ -1,21 +1,22 @@
 import React from 'react';
 import { Form, Field } from 'react-final-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { submitEditForm, activeTask } from '../actions/index';
+import { useDispatch } from 'react-redux';
+import { submitEditForm, editTaskForm } from '../actions/index';
 
-const TaskEditForm = () => {
+// eslint-disable-next-line react/prop-types
+const TaskEditForm = ({ initialValues, taskId }) => {
   const dispatch = useDispatch();
 
-  const activeTaskId = useSelector((state) => state.active.isActive);
-  const tasks = useSelector((state) => state.tasks);
+  // const tasks = useSelector((state) => state.tasks);
 
   const addEditTaskSubmit = (values) => {
-    dispatch(submitEditForm({ [activeTaskId]: { id: activeTaskId, ...values } }));
-    dispatch(activeTask(null));
+    dispatch(submitEditForm({ [taskId]: { id: taskId, ...values, isEdit: true } }));
+    dispatch(editTaskForm(taskId));
   };
 
   return (
     <Form
+      initialValues={initialValues}
       onSubmit={addEditTaskSubmit}
       render={({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
@@ -26,7 +27,6 @@ const TaskEditForm = () => {
                 component="input"
                 className="form-control"
                 name="taskName"
-                initialValue={tasks[activeTaskId].taskName}
               />
             </div>
             <div className="form-group">
@@ -35,7 +35,6 @@ const TaskEditForm = () => {
                 component="input"
                 className="form-control"
                 name="taskDescrip"
-                initialValue={tasks[activeTaskId].taskDescrip}
               />
             </div>
           </div>
